@@ -21,7 +21,7 @@ class OnlyAdmin
             return $next($request);
         }
         else{
-            return redirect()->route('home')->with('error','Invalid Email or Password!');
+            return redirect()->route('home')->with('error', 'Invalid Email or Password!');
         }
     }
 }
