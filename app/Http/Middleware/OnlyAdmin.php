@@ -16,6 +16,12 @@ class OnlyAdmin
      */
     public function handle(Request $request, Closure $next)
     {   
-        return $next($request);
+        //Only Admin Middleware
+        if (auth()->user()->only_admin==1) {
+            return $next($request);
+        }
+        else{
+            return redirect()->route('home')->with('error','Invalid Email or Password!');
+        }
     }
 }
