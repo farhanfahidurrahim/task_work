@@ -107,15 +107,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{ route('post.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Index Category</p>
+                  <p>All Post</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{ route('post.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add</p>
+                  <p>Create Post</p>
                 </a>
               </li>
             </ul>

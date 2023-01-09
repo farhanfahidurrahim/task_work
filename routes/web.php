@@ -33,6 +33,12 @@ Route::group(["middleware"=>'only_admin'],function(){
     Route::post('/category/update/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('category.update');
     Route::get('/category/delete/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'delete'])->name('category.delete');
 
+    Route::get('/post/all', [App\Http\Controllers\Admin\PostController::class, 'index'])->name('post.index');
+    Route::get('/post/create', [App\Http\Controllers\Admin\PostController::class, 'create'])->name('post.create');
+    Route::post('/post/store', [App\Http\Controllers\Admin\PostController::class, 'store'])->name('post.store');
+    Route::get('/post/edit/{id}', [App\Http\Controllers\Admin\PostController::class, 'edit'])->name('post.edit');
+    Route::get('/post/delete/{id}', [App\Http\Controllers\Admin\PostController::class, 'delete'])->name('post.delete');
+
 });
 
 
