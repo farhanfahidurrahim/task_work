@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/blog-post/{id}', [App\Http\Controllers\HomeController::class, 'blogPost'])->name('blog.post');
+Route::post('/comment/store', [App\Http\Controllers\HomeController::class, 'commentstore'])->name('comment.store');
 
 //___Admin Route
 Route::group(["middleware"=>'only_admin'],function(){
@@ -37,6 +35,7 @@ Route::group(["middleware"=>'only_admin'],function(){
     Route::get('/post/create', [App\Http\Controllers\Admin\PostController::class, 'create'])->name('post.create');
     Route::post('/post/store', [App\Http\Controllers\Admin\PostController::class, 'store'])->name('post.store');
     Route::get('/post/edit/{id}', [App\Http\Controllers\Admin\PostController::class, 'edit'])->name('post.edit');
+    Route::post('/post/update/{id}', [App\Http\Controllers\Admin\PostController::class, 'update'])->name('post.update');
     Route::get('/post/delete/{id}', [App\Http\Controllers\Admin\PostController::class, 'delete'])->name('post.delete');
 
 });

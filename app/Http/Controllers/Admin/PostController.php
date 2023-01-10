@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
 use Auth;
+use Image;
+use File;
 
 class PostController extends Controller
 {
@@ -17,7 +19,10 @@ class PostController extends Controller
 
     public function index()
     {   
-        $data=DB::table('posts')->get();
+        $data=DB::table('posts')
+            ->leftJoin('categories','posts.category_id','categories.id')
+            ->select('posts.*','categories.category_name')
+            ->get();
         return view('admin.post_index',compact('data'));
     }
 
@@ -36,7 +41,6 @@ class PostController extends Controller
             'description'=>'required',
             'tags'=>'required',
             'post_date'=>'required',
-            'post_name'=>'required',
             'creator_name'=>'required',
         ]);
 
@@ -53,12 +57,11 @@ class PostController extends Controller
             $slug=Str::of($request->post_name)->slug('-');
             $img=$request->post_image;
             $imgName=$slug.'.'.$img->getClientOriginalExtension();
-            $img->move('public/backend/files/',$imgName);
+            Image::make($img)->resize(615,450)->save('public/backend/files/'.$imgName);
         $data['post_image']='public/backend/files/'.$imgName;
 
-
         DB::table('posts')->insert($data);
-        return redirect()->back();
+        return redirect()->route('post.index');
     }
 
     public function edit($id)
@@ -70,15 +73,31 @@ class PostController extends Controller
 
     public function update(Request $request,$id)
     {
-        $request->validate([
-            'category_name'=>'required|unique:categories',
-        ]);
-
         $data=array();
-        $data['category_name']=$request->category_name;
+        $data['post_name']=$request->post_name;
+        $data['slug']=Str::of($request->post_name)->slug('-');
+        $data['category_id']=$request->category_id;
+        $data['description']=$request->description;
+        $data['tags']=$request->tags;
+        $data['creator_name']=$request->creator_name;
 
-        DB::table('posts')->where('id',$id)->update($data);
-        return redirect()->route('category.index');
+            if ($request->post_image) {
+                if (File::exists($request->old_image)) {
+                    unlink($request->old_image);
+                }
+                $slug=Str::of($request->post_name)->slug('-');
+                $img=$request->post_image;
+                $imgName=$slug.'.'.$img->getClientOriginalExtension();
+                Image::make($img)->resize(615,450)->save('public/backend/files/'.$imgName);
+                $data['post_image']='public/backend/files/'.$imgName;
+                DB::table('posts')->where('id',$id)->update($data);
+                return redirect()->route('post.index');
+            }
+            else{
+                $data['post_image']=$request->old_image;
+                DB::table('posts')->where('id',$id)->update($data);
+                return redirect()->route('post.index');
+            }
     }
 
     public function delete($id)

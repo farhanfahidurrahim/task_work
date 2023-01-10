@@ -53,13 +53,13 @@
 	                  <tr>
 	                    <td>{{++$key}}</td>
 	                    <td>{{$row->post_name}}</td>
-	                    <td>{{$row->category_id}}</td>
-	                    <td>{{$row->post_image}}</td>
-	                    <td>{{$row->description}}</td>
+	                    <td>{{$row->category_name}}</td>
+	                    <td><img src="{{asset($row->post_image)}}" height="75" width="75"></td>
+	                    <td>{{ substr($row->description,0,100) }}</td>
 	                    <td>{{$row->tags}}</td>
 	                    <td>{{$row->post_date}}</td>
 	                    <td>{{$row->creator_name}}</td>
-	                    <td>{{$row->admin_id}}</td>
+	                    <td>{{Auth::user()->name}}</td>
 	                    <td>
 	                    	<a href="{{ route('post.edit',$row->id) }}" class="btn btn-info">Edit</a>
 	                    	<a href="{{ route('post.delete',$row->id) }}" class="btn btn-danger">Delete</a>

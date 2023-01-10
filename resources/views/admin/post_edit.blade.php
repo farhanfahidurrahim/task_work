@@ -33,7 +33,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+              <form action="{{ route('post.update',$data->id) }}" method="post" enctype="multipart/form-data">
               	@csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -44,14 +44,15 @@
                   	<label for="exampleInputEmail1">Post Category</label>
                     <select class="form-control" name="category_id" required>
                     	@foreach($cat as $row)
-                    		<option value="" @if($row->id==$data->category_id) selected @endif>{{$row->category_name}}</option>
+                    		<option value="{{$row->id}}" @if($row->id==$data->category_id) selected @endif>{{$row->category_name}}</option>
                     	@endforeach
                     </select>
                   </div>
                   <div class="form-group">
                   	<img src="{{asset($data->post_image)}}" style="width:150px;height: 150px;"> : Present Image<br>
                     <label for="exampleInputEmail1">Post New Image</label>
-                    <input type="file" name="post_image" class="form-control" required>
+                    <input type="file" name="post_image" class="form-control">
+                    <input type="hidden" name="old_image" value="{{$data->post_image}}">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Post Description</label>
@@ -68,15 +69,15 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>
             <!-- /.card -->
-            </div>
-            </div>
-            </div>
-        </section>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
 @endsection
