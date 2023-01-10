@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -13,10 +14,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -53,5 +54,11 @@ class HomeController extends Controller
     public function adminIndex()
     {
         return view('home_admin');
+    }
+
+    public function adminLogout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

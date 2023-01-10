@@ -18,5 +18,6 @@ class Post extends Model
         'post_date',
         'tags',
         'description',
+        'creator_name',
     ];
 }

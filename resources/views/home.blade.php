@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_frontend')
 @section('content')
 
 <main id="main">
